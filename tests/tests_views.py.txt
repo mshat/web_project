@@ -1,0 +1,52 @@
+import unittest
+from django.test import SimpleTestCase, TestCase
+from unittest.mock import Mock, patch
+from mainapp.views import TypeCreateView, OrdersListView, CartView
+from .data_builders import UserBuilder, OrderBuilder, BackpackBuilder
+import mainapp.services
+from django.urls import reverse
+from mainapp.models import OrderDetail
+
+
+class CartViewTests(TestCase):
+
+    def test_add_item_orders_dont_exists_exception(self):
+        builder = UserBuilder()
+        buyer = builder.product
+        request = Mock(name='request')
+        request.user = buyer
+        pk = 0
+        self.assertRaises(Exception, CartView.add_item, request, pk) 
+
+    @patch('mainapp.services.OrderDetailManager')
+    def test_add_item_orders(self, mocked_class):
+        user_builder = UserBuilder()
+        my_buyer = user_builder.product
+        request = Mock(name='request')
+        request.user = my_buyer
+        order_builder = OrderBuilder()
+        order_builder.buyer = my_buyer
+        order = order_builder.product
+        backpack_builder = BackpackBuilder()
+        backpack = backpack_builder.product
+        pk = 1
+        CartView.add_item(request, pk)
+        assert mocked_class.called
+        # todo внутри функции есть проверка на валидность формы, как это тестировать?
+
+    def test_add_item_orders3(self):
+        user_builder = UserBuilder()
+        my_buyer = user_builder.product
+        request = Mock(name='request')
+        request.user = my_buyer
+        order_builder = OrderBuilder()
+        order_builder.buyer = my_buyer
+        order = order_builder.product
+        backpack_builder = BackpackBuilder()
+        backpack = backpack_builder.product
+        login = self.client.login(username='login', password='pA$$w0rd')
+        resp = self.client.get('/catalog/myorder/add/1/')
+        order_objects = OrderDetail.objects.all()
+        print('!!!!!!!!!!!!!!!!!!!', order_objects)
+        self.assertEqual(resp.status_code, 302)
+        

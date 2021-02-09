@@ -1,0 +1,57 @@
+{% extends "base_generic.html" %}
+
+
+{% block content %}
+<h1 align="center">Магазин рюкзаков</h1>
+
+<p align="center">Добро пожаловать в магазин рюкзаков. Это простой веб-сайт на Django, разработанный в качестве обучающего примера.</p>
+
+<head>
+    <style>
+        ul.primer_menu {
+            margin: 3px;
+            padding: 3px;
+        }
+
+            ul.primer_menu li {
+                margin: 0;
+                padding: 0;
+                text-align: center;
+                background: #4876FF;
+                display: inline-block;
+                font-size: 18px;
+            }
+
+                ul.primer_menu li a {
+                    color: white;
+                    display: block;
+                    padding: 7px 20px;
+                    text-decoration: none;
+                }
+
+                ul.primer_menu li:hover {
+                    background: #B22222;
+                    color: #fff;
+                }
+    </style>
+</head>
+<body>
+    <ul align="center" class="primer_menu">
+        <li><a href="{% url 'backpacks' %}">Каталог рюкзаков</a></li>
+        <li><a href="{% url 'manufacturers' %}">Производители</a></li>
+
+        {% if user.is_authenticated %}
+			{% if not user.is_staff %}
+				<li><a href="{% url 'orderdetails' %}">Корзина</a></li>
+				<li><a href="{% url 'my_orders' %}">Мои заказы</a></li>
+			{% else %}
+				<li><a href="{% url 'types' %}">Каталог типов рюкзаков</a></li>
+				<li><a href="{% url 'materials' %}">Каталог материалов</a></li>
+			{% endif %}
+        {% else %}
+        <li><a href="{% url 'login'%}?next={{request.path}}">Вход</a></li>
+        <li><a href="{% url 'register' %}">Регистрация</a></li>
+        {% endif %}
+    </ul>
+</body>
+{% endblock %}

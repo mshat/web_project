@@ -1,0 +1,26 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Manufacturer List</h1>
+
+    {% if manufacturer_list %}
+<ul>
+
+    {% for manufacturer in manufacturer_list %}
+    <li>
+        <a href="{{ manufacturer.get_absolute_url }}">{{ manufacturer.name }}</a> ({{manufacturer.country}})
+    </li>
+    {% endfor %}
+</ul>
+    {% else %}
+<p>There are no manufacturer in the shop.</p>
+    {% endif %}
+
+	{% if user.is_staff %}
+<form action="{% url 'manufacturer_create' %}" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Create manufacturer" />
+</form>
+    {% endif %}
+
+{% endblock %}

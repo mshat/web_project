@@ -1,0 +1,51 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>{{ backpack.title }}</h1>
+
+<p><strong>Производитель:</strong> <a href="{% url 'manufacturer_detail' backpack.manufacturer.pk %}">{{ backpack.manufacturer }}</a></p>
+  {% if backpack.info %}
+<p><strong>Информация:</strong><div style="white-space:pre-wrap;">{{backpack.info}}</div></p>
+  {% endif %}
+<p><strong>Размер:</strong> {{ backpack.size }} литров</p>
+<p><strong>Материалы:</strong> {% for material in backpack.material.all %} {{ material }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+<p><strong>Цена:</strong> {{ backpack.price }} рублей</p>
+<p><strong>Тип:</strong> {% for type in backpack.type.all %} {{ type }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+<p><strong>Количество на складе:</strong> {{ backpack.number }} штук</p>
+
+{% if user.is_authenticated %}
+<form action="{% url 'add_item' backpack.pk %}" method="post">
+    {{ cart_backpack_form }}
+    {% csrf_token %}
+    <input type="submit" value="Добавить в корзину">
+</form>
+{% else %}
+Чтобы добавить товар в корзину, <a href="{% url 'login'%}?next={{request.path}}"><strong>войдите</strong></a> в аккаунт или <a href="{% url 'register'%}?next={{request.path}}"><strong>зарегестрируйтесь</strong></a>.
+{% endif %}
+
+{% if user.is_staff %}
+<form action="{% url 'backpack_delete' backpack.pk %}" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Delete backpack" />
+</form>
+
+<form action="{% url 'backpack_update' backpack.pk %}" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Edit backpack" />
+</form>
+  {% endif %}
+
+<!--
+  <div style="margin-left:20px;margin-top:20px">
+    <h4>Copies</h4>
+
+    {% for copy in backpack.bookinstance_set.all %}
+    <hr>
+    <p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'd' %}text-danger{% else %}text-warning{% endif %}">{{ copy.get_status_display }}</p>
+    {% if copy.status != 'a' %}<p><strong>Due to be returned:</strong> {{copy.due_back}}</p>{% endif %}
+    <p><strong>Imprint:</strong> {{copy.imprint}}</p>
+    <p class="text-muted"><strong>Id:</strong> {{copy.id}}</p>
+    {% endfor %}
+  </div>
+-->
+{% endblock %}

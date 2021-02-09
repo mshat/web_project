@@ -1,0 +1,26 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Material List</h1>
+
+    {% if material_list %}
+<ul>
+
+    {% for material in material_list %}
+    <li>
+        <a href="{{ material.get_absolute_url }}">{{ material.name }}</a>
+    </li>
+    {% endfor %}
+</ul>
+    {% else %}
+<p>There are no types.</p>
+    {% endif %}
+	
+	{% if user.is_staff %}
+    <form action="{% url 'material_create' %}" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Create material" />
+    </form>
+    {% endif %}
+	
+{% endblock %}

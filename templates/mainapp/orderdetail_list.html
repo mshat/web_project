@@ -1,0 +1,57 @@
+﻿{% extends "base_generic.html" %}
+
+{% block content %}
+<head>
+    <style>
+        table.text {
+            width: 80%; /* Ширина таблицы */
+            border-spacing: 0; /* Расстояние между ячейками */
+        }
+
+            table.text td {
+                width: 40%; /* Ширина ячеек */
+                vertical-align: top; /* Выравнивание по верхнему краю */
+            }
+
+        td.rightcol { /* Правая ячейка */
+            text-align: right; /* Выравнивание по правому краю */
+        }
+
+        td.center {
+            text-align: center; /* Выравнивание по правому краю */
+        }
+    </style>
+</head>
+
+<h1>Корзина</h1>
+
+    {% if orderdetail_list %}
+      {% for item in orderdetail_list %}
+<table class="text">
+    <tr>
+        <td>{{ item.backpack }}</td>
+        <td>{{ item.number }} шт. &nbsp;&nbsp;&nbsp;&nbsp;{{ item.total }} руб.</td>
+    </tr>
+</table>
+      {% endfor %}
+
+<p align="center"><strong>Cумма: {{ total }} руб.</strong></p>
+
+<form action="{% url 'order' %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Заказать">
+</form>
+    {% else %}
+<p>Корзина пуста</p>
+    {% endif %}
+</form>
+{% endblock %}
+
+<!-- <a href="{{ backpack.get_absolute_url }}">{{ backpack.title }}</a> ({{backpack.manufacturer}}) -->
+<!--
+<form action="{% url "delete_cart_item" %}" method="post">
+        {% csrf_token %}
+
+        <input type="submit" value="delete item">
+        </form>
+-->

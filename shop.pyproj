@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{57c238b0-6134-4853-acb2-9d5c7dbbef52}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>manage.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{5F0BE9CA-D677-4A4D-8806-6076C0FAAD37};{349c5851-65df-11da-9384-00065b846f21};{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Django launcher</LaunchProvider>
+    <InterpreterId>MSBuild|shop|$(MSBuildProjectFullPath)</InterpreterId>
+    <WebBrowserUrl>http://localhost</WebBrowserUrl>
+    <DjangoSettingsModule>onlineshop.settings</DjangoSettingsModule>
+    <TestFramework>unittest</TestFramework>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="mainapp\static\css\styles.css" />
+    <Content Include="mainapp\static\j6PhPFJOOAg.jpg" />
+    <Content Include="mainapp\static\R3qjPtvkQwM.jpg" />
+    <Content Include="templates\base_generic.html" />
+    <Content Include="templates\index.html" />
+    <Content Include="templates\mainapp\backpack_detail.html" />
+    <Content Include="templates\mainapp\backpack_form.html" />
+    <Content Include="templates\mainapp\backpack_list.html" />
+    <Content Include="templates\mainapp\manufacturer_detail.html" />
+    <Content Include="templates\mainapp\manufacturer_form.html" />
+    <Content Include="templates\mainapp\manufacturer_list.html" />
+    <Content Include="templates\mainapp\material_detail.html" />
+    <Content Include="templates\mainapp\material_form.html" />
+    <Content Include="templates\mainapp\material_list.html" />
+    <Content Include="templates\mainapp\my_order_detail.html" />
+    <Content Include="templates\mainapp\my_order_list.html" />
+    <Content Include="templates\mainapp\orderdetail_list.html" />
+    <Content Include="templates\mainapp\order_detail.html" />
+    <Content Include="templates\mainapp\order_list.html" />
+    <Content Include="templates\mainapp\registration.html" />
+    <Content Include="templates\mainapp\test.html" />
+    <Content Include="templates\mainapp\test_form.html" />
+    <Content Include="templates\mainapp\type_detail.html" />
+    <Content Include="templates\mainapp\type_form.html" />
+    <Content Include="templates\mainapp\type_list.html" />
+    <Content Include="templates\registration\logged_out.html" />
+    <Content Include="templates\registration\login.html" />
+    <Content Include="templates\registration\password_reset_complete.html" />
+    <Content Include="templates\registration\password_reset_confirm.html" />
+    <Content Include="templates\registration\password_reset_done.html" />
+    <Content Include="templates\registration\password_reset_email.html" />
+    <Content Include="templates\registration\password_reset_form.html" />
+    <Content Include="как запускать.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="mainapp\admin.py" />
+    <Compile Include="mainapp\apps.py" />
+    <Compile Include="mainapp\const.py" />
+    <Compile Include="mainapp\forms.py" />
+    <Compile Include="mainapp\migrations\0001_initial.py" />
+    <Compile Include="mainapp\migrations\0002_auto_20200916_2237.py" />
+    <Compile Include="mainapp\migrations\0003_auto_20200916_2259.py" />
+    <Compile Include="mainapp\migrations\0004_auto_20200917_0326.py" />
+    <Compile Include="mainapp\migrations\0005_auto_20200922_2044.py" />
+    <Compile Include="mainapp\migrations\0006_auto_20200922_2113.py" />
+    <Compile Include="mainapp\migrations\0007_backpack_info.py" />
+    <Compile Include="mainapp\migrations\0008_auto_20200923_0206.py" />
+    <Compile Include="mainapp\migrations\0009_order_orderdetail.py" />
+    <Compile Include="mainapp\migrations\0010_backpack_set_number.py" />
+    <Compile Include="mainapp\migrations\0011_auto_20200927_2353.py" />
+    <Compile Include="mainapp\migrations\0012_auto_20200928_0056.py" />
+    <Compile Include="mainapp\migrations\0013_auto_20200928_0057.py" />
+    <Compile Include="mainapp\migrations\0014_auto_20200928_0415.py" />
+    <Compile Include="mainapp\migrations\0015_auto_20200928_0510.py" />
+    <Compile Include="mainapp\migrations\0016_auto_20200929_0044.py" />
+    <Compile Include="mainapp\migrations\0017_orderdetail_ordered.py" />
+    <Compile Include="mainapp\migrations\0018_orderdetail_total.py" />
+    <Compile Include="mainapp\migrations\0019_auto_20200930_0007.py" />
+    <Compile Include="mainapp\migrations\0020_auto_20201001_0252.py" />
+    <Compile Include="mainapp\migrations\0021_auto_20201001_0308.py" />
+    <Compile Include="mainapp\migrations\0022_auto_20201001_0502.py" />
+    <Compile Include="mainapp\migrations\0023_auto_20201001_0615.py" />
+    <Compile Include="mainapp\migrations\0024_auto_20201002_0322.py" />
+    <Compile Include="mainapp\migrations\del\0009_auto_20200927_2231.py" />
+    <Compile Include="mainapp\migrations\del\0010_auto_20200927_2236.py" />
+    <Compile Include="mainapp\migrations\del\0011_remove_backpack_set_number.py" />
+    <Compile Include="mainapp\migrations\del\0012_auto_20200928_0055.py" />
+    <Compile Include="mainapp\migrations\del\0013_auto_20200928_0055.py" />
+    <Compile Include="mainapp\migrations\del\0013_auto_20200928_0056.py" />
+    <Compile Include="mainapp\migrations\__init__.py" />
+    <Compile Include="mainapp\models.py" />
+    <Compile Include="mainapp\services.py" />
+    <Compile Include="mainapp\urls.py" />
+    <Compile Include="mainapp\views.py" />
+    <Compile Include="mainapp\__init__.py" />
+    <Compile Include="manage.py" />
+    <Compile Include="onlineshop\asgi.py" />
+    <Compile Include="onlineshop\settings.py" />
+    <Compile Include="onlineshop\urls.py" />
+    <Compile Include="onlineshop\wsgi.py" />
+    <Compile Include="onlineshop\__init__.py" />
+    <Compile Include="tests\data_builders.py" />
+    <Compile Include="tests\tests_services.py" />
+    <Compile Include="tests\tests_views.py" />
+    <Compile Include="tests\__init__.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="mainapp" />
+    <Folder Include="mainapp\migrations" />
+    <Folder Include="mainapp\migrations\del" />
+    <Folder Include="mainapp\static" />
+    <Folder Include="mainapp\static\css" />
+    <Folder Include="onlineshop" />
+    <Folder Include="templates" />
+    <Folder Include="templates\mainapp" />
+    <Folder Include="templates\registration" />
+    <Folder Include="tests" />
+  </ItemGroup>
+  <ItemGroup>
+    <Interpreter Include="C:\Users\prive\Envs\shop\">
+      <Id>shop</Id>
+      <Version>3.9</Version>
+      <Description>shop (Python 3.9 (64-bit))</Description>
+      <InterpreterPath>Scripts\python.exe</InterpreterPath>
+      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
+      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
+      <Architecture>X64</Architecture>
+    </Interpreter>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Django.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <AutoAssignPort>True</AutoAssignPort>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

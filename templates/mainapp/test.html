@@ -1,0 +1,59 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Cart</h1>
+
+    {% if orderdetail_list %}
+<ul>
+    {% for item in orderdetail_list %}
+    <li>
+        <input type="checkbox" name="cart_item_check" value=item>
+        {{ item.backpack }} number: {{ item.number }}
+    </li>
+    {% endfor %}
+</ul>
+    {% else %}
+<p>There are no backpack in the shop.</p>
+    {% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="Apple" id="apple" name="fruits">
+        <label class="form-check-label" for="apple">Apple</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="Mango" id="mango" name="fruits">
+        <label class="form-check-label" for="mango">Mango</label>
+    </div>
+</form>
+
+<input type="checkbox" name="checks[]" value="1" />
+<input type="checkbox" name="checks[]" value="2" />
+<input type="checkbox" name="checks[]" value="3" />
+<input type="checkbox" name="checks[]" value="4" />
+
+<form action="{% url " delete_cart_item" %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="delete item">
+</form>
+
+<form action="{% url " order" %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Create order">
+</form>
+
+<form action="" method="post">
+    <label for="l_box1"><input type="radio" name="display_type" value="locationbox" id="l_box1">Display Location</label>
+    <label for="d_box2"><input type="radio" name="display_type" value="displaybox" id="d_box2"> Display Direction</label>
+</form>
+{% endblock %}
+
+<!-- <a href="{{ backpack.get_absolute_url }}">{{ backpack.title }}</a> ({{backpack.manufacturer}}) -->
+<!--
+<form action="{% url "delete_cart_item" %}" method="post">
+        {% csrf_token %}
+
+        <input type="submit" value="delete item">
+        </form>
+-->

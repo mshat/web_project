@@ -1,0 +1,26 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Type List</h1>
+
+    {% if type_list %}
+<ul>
+
+    {% for type in type_list %}
+    <li>
+        <a href="{{ type.get_absolute_url }}">{{ type.type }}</a>
+    </li>
+    {% endfor %}
+</ul>
+    {% else %}
+<p>There are no types.</p>
+    {% endif %}
+	
+	{% if user.is_staff %}
+    <form action="{% url 'type_create' %}" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Create type" />
+    </form>
+    {% endif %}
+	
+{% endblock %}

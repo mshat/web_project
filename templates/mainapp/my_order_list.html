@@ -1,0 +1,46 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<head>
+    <style>
+        table.text {
+            width: 80%; /* Ширина таблицы */
+            border-spacing: 0; /* Расстояние между ячейками */
+        }
+
+            table.text td {
+                width: 1%; /* Ширина ячеек */
+                vertical-align: top; /* Выравнивание по верхнему краю */
+            }
+
+        td.rightcol { /* Правая ячейка */
+            text-align: right; /* Выравнивание по правому краю */
+        }
+    </style>
+</head>
+
+    <h1>Заказы</h1>
+
+    {% if order_list %}
+      {% for order in order_list %} 
+	  <table class="text">
+            <tr>
+                <td><strong><a href="{{ order.get_absolute_url }}">Заказ номер: {{ order.id }} </a></strong></td>
+				<td>Дата заказа:&nbsp;&nbsp;&nbsp;{{ order.creation_date }}</td>
+				<td> Сумма: {{ order.total }} руб.</td>
+				{% ifequal order.status 'o' %}
+					<td class=><p><strong>Статус: создан</strong></p></td>
+				{% endifequal %}
+				{% ifequal order.status 'p' %}
+					<td class=><p><strong>Статус: оплачен, в обработке</strong></p></td>
+				{% endifequal %}	
+						
+            </tr>
+        </table>
+		<p><strong>_____________________________________________________________________________________________________________________________________________________________</strong></p>
+      {% endfor %}
+
+    {% else %}
+      <p>Нет ни одного заказа</p>
+    {% endif %}       
+{% endblock %}

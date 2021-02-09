@@ -1,0 +1,29 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>{{ manufacturer.name }}</h1>
+  {% if manufacturer.info %}
+<p><div style="white-space:pre-wrap;"><strong> Info:</strong> {{manufacturer.info}}</div></p>
+  {% endif %}
+<p><strong>Country:</strong> {{ manufacturer.country }}</p>
+
+  {% if user.is_staff %}
+<form action="{% url 'manufacturer_delete' manufacturer.pk %}" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Delete manufacturer" />
+</form>
+
+<form action="{% url 'manufacturer_update' manufacturer.pk %}" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Edit manufacturer" />
+</form>
+  {% endif %}
+
+  {% for backpack in manufacturer.backpack_set.all %}
+<li>
+    <a href="{{ backpack.get_absolute_url }}">{{ backpack.title }}</a>
+</li>
+  {% endfor %}
+
+
+{% endblock %}

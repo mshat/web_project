@@ -1,0 +1,20 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Type</h1>
+
+  <p><strong>Name:</strong> {{ type.type }}</p>
+
+  {% if user.is_staff %}
+    <form action="{% url 'type_delete' type.pk %}" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Delete type" />
+    </form>
+	
+	<form action="{% url 'type_update' type.pk %}" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Edit type" />
+    </form>
+  {% endif %}
+
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<head>
+    <style>
+        table.text {
+            width: 80%; /* Ширина таблицы */
+            border-spacing: 0; /* Расстояние между ячейками */
+        }
+
+            table.text td {
+                width: 20%; /* Ширина ячеек */
+                vertical-align: top; /* Выравнивание по верхнему краю */
+            }
+
+        td.rightcol { /* Правая ячейка */
+            text-align: right; /* Выравнивание по правому краю */
+        }
+    </style>
+</head>
+
+  {% if user.is_authenticated %}
+	{% ifequal user order.buyer %}
+		<h1>Номер заказа: {{ order.id }}</h1>
+		
+		<p><strong>Заказ от:</strong> {{ order.creation_date }}</p>
+
+		<div style="margin-left:20px;margin-top:20px">
+		{% for item in order.orderdetail_set.all %}
+		<table class="text">
+			<tr>
+				<td><a href="{{ item.backpack.get_absolute_url }}"> {{ item.backpack.title }} </a></td>
+				<td class="leftcol">{{ item.number }} шт. &nbsp;&nbsp;&nbsp; {{ item.total}} руб.</td>
+			</tr>
+		</table>
+		{% endfor %}
+		<p align="center"><strong>Итоговая сумма: {{ order.total }} руб.</strong></p>
+		{% ifequal order.status 'o' %}
+			<p align="center"><strong>Статус заказа: создан</strong></p>
+		{% endifequal %}
+		{% ifequal order.status 'p' %}
+			<p align="center"><strong>Статус заказа: оплачен, в обработке</strong></p>
+		{% endifequal %}	
+	
+		{% ifequal order.status 'o' %}
+			<form action="{% url 'pay' order.pk %}" method="POST">
+				{% csrf_token %}
+				<input type="submit" value="Оплатить заказ" />
+			</form>
+		{% endifequal %}
+		
+		<form action="{% url 'delete_order' order.pk %}" method="POST">
+			{% csrf_token %}
+			<input type="submit" value="Отменить заказ" />
+		</form>
+		</div>
+		{% else %}
+			<h1>У вас нет прав для доступа к этой странице </h1>
+		{% endifequal %}
+	{% endif %}
+{% endblock %}

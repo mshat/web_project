@@ -1,0 +1,25 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Каталог рюкзаков</h1>
+
+    {% if backpack_list %}
+<ul>
+    {% for backpack in backpack_list %}
+    <li>
+        <a href="{{ backpack.get_absolute_url }}">{{ backpack.title }}</a> ({{backpack.manufacturer}})
+    </li>
+    {% endfor %}
+</ul>
+    {% else %}
+<p>There are no backpack in the shop.</p>
+    {% endif %}
+
+	{% if user.is_staff %}
+<form action="{% url 'backpack_create' %}" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Create backpack" />
+</form>
+    {% endif %}
+
+{% endblock %}

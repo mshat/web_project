@@ -1,0 +1,22 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Material</h1>
+
+  <p><strong>Name:</strong> {{ material.name }}</p>
+  <p><strong>Is waterproof:</strong> {{ material.is_waterproof }}</p>
+  <p><strong>Density:</strong> {{ material.density}}</p>
+  
+  {% if user.is_staff %}
+    <form action="{% url 'material_delete' material.pk %}" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Delete material" />
+    </form>
+	
+	<form action="{% url 'material_update' material.pk %}" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Edit material" />
+    </form>
+  {% endif %}
+
+{% endblock %}
