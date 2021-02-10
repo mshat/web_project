@@ -8,11 +8,13 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('catalog/', include('mainapp.urls')),
-    path('', RedirectView.as_view(url='/catalog/', permanent=True)), # Перенаправляет запросы с корневового URL, на URL приложения 
+    path('api/v1/mainapp/', include('mainapp.urls')),
+    path('api/v1/auth/', include('djoser.urls')),
+    path('api/v1/auth_token/', include('djoser.urls.authtoken')),
+    path('', RedirectView.as_view(url='/catalog/', permanent=True)), # Перенаправляет запросы с корневового URL, на URL приложения
     path('accounts/', include('django.contrib.auth.urls')),
-    #path('accounts/', include('django_registration.backends.activation.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
-    + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) # Используется static() чтобы добавить соотношения для статических файлов. Только на период разработки 
+    + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) # Используется static() чтобы добавить соотношения для статических файлов. Только на период разработки
 
 
 

@@ -1,7 +1,7 @@
 import os
 import django
 import sys
-sys.path.append('D:\git\shop2\onlineshop')
+sys.path.append('D:\git\shop\onlineshop')
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 django.setup()
 

@@ -2,6 +2,12 @@ from django.urls import path
 from . import views
 from . import services
 from django.conf.urls import url
+from rest_framework import routers
+from .api import *
+
+
+router = routers.DefaultRouter()
+router.register('api/backpack', BackpackViewSet, 'backpack')
 
 urlpatterns = [
     url(r'^$', views.Index.as_view, name='index'),
@@ -43,5 +49,9 @@ urlpatterns = [
     url(r'^cart/order$', views.CartView.order, name='order'),
 
     url(r'^registration/$', views.UserView.register, name='register'),
-]
+
+    path('backpack/create/', BackpackCreateView.as_view()),
+    path('backpack/all/', BackpacksListView.as_view()),
+    path('backpack/detail/<int:pk>', BackpackDetailView.as_view()),
+] #+ router.urls
 
