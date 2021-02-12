@@ -5,17 +5,17 @@ from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework import routers
-# from mainapp.api import MyUserViewSet
-#
-#
-# router = routers.DefaultRouter()
-# router.register('api/v1/users/', MyUserViewSet, 'users')
+from mainapp.api import MyUserViewSet
+
+
+router = routers.DefaultRouter()
+router.register('api/v1/users', MyUserViewSet, 'users')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('catalog/', include('mainapp.urls')),
     path('', include('mainapp.urls')),
-    path('api/v1/', include('djoser.urls')),
+    *router.urls,
     path('api/v1/token_auth/', include('djoser.urls.authtoken')),
     path('api/v1/base_auth/', include('rest_framework.urls')),
     path('', RedirectView.as_view(url='/catalog/', permanent=True)), # Перенаправляет запросы с корневового URL, на URL приложения

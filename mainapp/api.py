@@ -11,6 +11,17 @@ from djoser.views import UserViewSet
 
 
 class MyUserViewSet(UserViewSet):
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        headers = self.get_success_headers(serializer.data)
+
+        services.create_user(username=serializer.data.get('username'),
+                             email=serializer.data.get('email'),
+                             password=serializer.data.get('password')
+                             )
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
     def activation(self, request, *args, **kwargs):
         pass
 
@@ -18,7 +29,7 @@ class MyUserViewSet(UserViewSet):
         pass
 
     def reset_password(self, request, *args, **kwargs):
-        print('Hui :)')
+        pass
 
     def reset_password_confirm(self, request, *args, **kwargs):
         pass
@@ -26,14 +37,41 @@ class MyUserViewSet(UserViewSet):
     def reset_username_confirm(self, request, *args, **kwargs):
         pass
 
-# class MyCustomUserViewSet(UserViewSet):
-#     def get_permissions(self):
-#         if self.action == "me" and self.request.method == "PUT":
-#             # do something
-#         return super().get_permissions()
+    def reset_username(self, request, *args, **kwargs):
+        pass
 
 
-class OrderDetailCreateView(generics.CreateAPIView):
+# ORDERDETAIL
+class DetailOrdersListView(generics.ListAPIView):
+    """ Корзина """
+    serializer_class = DetailOrdersListSerializer
+    queryset = OrderDetail.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        # todo костыль из-за отсутствия корзины
+        if not request.user.is_staff:
+            self.queryset = OrderDetail.objects.filter(order__buyer=self.request.user).filter(ordered=False)
+        return self.list(request, *args, **kwargs)
+
+
+class OrderCreateView(generics.RetrieveAPIView):
+    serializer_class = DetailOrdersListSerializer
+    queryset = Order.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        # todo костыль из-за отсутствия корзины
+        if not request.user.is_staff:
+            buyer = request.user
+            services.order(buyer)
+            return Response(status=status.HTTP_200_OK)
+        else:
+            return Response(
+                {"detail": "Dear admin, you do not have permission to perform this action."},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
+
+class DetailOrderCreateView(generics.CreateAPIView):
     serializer_class = DetailOrderSerializer
 
     def create(self, request, *args, **kwargs):
@@ -54,31 +92,34 @@ class OrderDetailCreateView(generics.CreateAPIView):
         return Response(status=status.HTTP_201_CREATED, headers=headers)
 
 
-#ORDERS
+# ORDERS
 class OrdersListView(generics.ListAPIView):
     serializer_class = OrdersListSerializer
     queryset = Order.objects.all()
 
     def get(self, request, *args, **kwargs):
         if not request.user.is_staff:
-            self.queryset = Order.objects.filter(buyer=request.user)
+            self.queryset = Order.objects.filter(buyer=request.user).exclude(status="c")
         return self.list(request, *args, **kwargs)
 
 
-class OrderDetailView(generics.RetrieveAPIView):
+class OrderDetailView(generics.RetrieveDestroyAPIView):
     serializer_class = OrderDetailSerializer
     queryset = Order.objects.all()
     permission_classes = (IsOwnerOrAdmin,)
 
-
-class OrderDeleteView(generics.GenericAPIView):
-    permission_classes = (IsOwnerReadOnly,)
-
-    def get(self, request, *args, **kwargs):
+    def delete(self, request, *args, **kwargs):
         pk = self.kwargs['pk']
-        if services.OrderManager(id=pk):
-            services.delete_order(request, pk)
-            return Response(status=status.HTTP_204_NO_CONTENT)
+        order = services.OrderManager(id=pk)
+        if order:
+            if order.object.buyer == request.user or request.user.is_staff:
+                services.delete_order(request, pk)
+                return Response(status=status.HTTP_204_NO_CONTENT)
+            else:
+                return Response(
+                    {"detail": "You do not have permission to perform this action."},
+                    status=status.HTTP_403_FORBIDDEN
+                )
         else:
             return Response(
                 {'Order not found'},

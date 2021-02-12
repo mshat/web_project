@@ -2,10 +2,11 @@ from django.urls import path
 from . import views
 from django.conf.urls import url
 from rest_framework import routers
-from .api import OrderDetailCreateView, BackpackCreateView, BackpacksListView, BackpackEditView, \
+from .api import DetailOrderCreateView, BackpackCreateView, BackpacksListView, BackpackEditView, \
     BackpackDetailView, TypeCreateView, TypesListView, TypeEditView, TypeDetailView, ManufacturerCreateView, \
     ManufacturersListView, ManufacturerEditView, ManufacturerDetailView, MaterialCreateView, MaterialsListView, \
-    MaterialEditView, MaterialDetailView, OrderDeleteView, OrdersListView, OrderDetailView, MyUserViewSet
+    MaterialEditView, MaterialDetailView, OrdersListView, OrderDetailView, MyUserViewSet, OrderCreateView, \
+    DetailOrdersListView
 
 router = routers.DefaultRouter()
 router.register('api/v1/users/', MyUserViewSet, 'users')
@@ -54,7 +55,7 @@ urlpatterns = [
     path('api/v1/backpack/', BackpackCreateView.as_view()),
     path('api/v1/backpack/all/', BackpacksListView.as_view()),
     path('api/v1/backpack/detail/<int:pk>', BackpackDetailView.as_view()),
-    path('api/v1/backpack/detail/<int:pk>/add/', OrderDetailCreateView.as_view()),
+    path('api/v1/backpack/detail/<int:pk>/add/', DetailOrderCreateView.as_view()),
     path('api/v1/backpack/edit/<int:pk>', BackpackEditView.as_view()),
 
     path('api/v1/type/', TypeCreateView.as_view()),
@@ -74,6 +75,8 @@ urlpatterns = [
 
     path('api/v1/order/all/', OrdersListView.as_view()),
     path('api/v1/order/detail/<int:pk>', OrderDetailView.as_view()),
-    path('api/v1/order/cancel/<int:pk>', OrderDeleteView.as_view()),
+
+    path('api/v1/cart/', DetailOrdersListView.as_view()),
+    path('api/v1/cart/order/', OrderCreateView.as_view()),
 ] + router.urls
 

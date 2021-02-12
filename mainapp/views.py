@@ -177,14 +177,15 @@ class MyOrdersListView(LoginRequiredMixin, generic.ListView):
 class MyOrderDetailView(LoginRequiredMixin, generic.DetailView):
     model = Order
     template_name = 'mainapp/my_order_detail.html'
+
     def get_queryset(self):
         return Order.objects.order_by('-id')
 
 
 class OrderDetailListView(LoginRequiredMixin, generic.ListView):
-    '''
+    """
     cart
-    '''
+    """
     model = OrderDetail
 
     def get_context_data(self, **kwargs):
@@ -207,14 +208,8 @@ class CartView:
 
     @require_POST
     def order(request):
-        user = request.user
-        order_details = OrderDetail.objects.filter(order__buyer=user).filter(ordered=False)
-        if order_details:
-            order = OrderManager(object=order_details[0].order)
-            order.status = 'o'
-            new_order = OrderManager(user, 0)
-            for item in order_details:
-                OrderDetailManager(object=item).ordered = True
+        buyer = request.user
+        services.order(buyer)
         return HttpResponseRedirect('/catalog/myorders/')
 
     @require_POST
@@ -248,12 +243,10 @@ class UserView:
                 login = form.cleaned_data['login']       
                 password = form.cleaned_data['password']
                 group = Group.objects.filter(name='Сustomer')
-                user = User.objects.create_user(username=login,
-                                                email='',
-                                                password=password
-                                                )
-                user.groups.set(group)
-                order = OrderManager(user, 0)
+                services.create_user(username=login,
+                                     email='',
+                                     password=password
+                                     )
                 return HttpResponseRedirect('/accounts/login/')
         # If this is a GET (or any other method) create the default form.
         else:

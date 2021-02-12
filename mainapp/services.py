@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404
 from .models import Type, Backpack, Manufacturer, Material, Order, OrderDetail
 from .const import ORDER_STATUS
 from .forms import CartAddBackpackForm, RegistrationForm, TypeCreateForm
+from django.contrib.auth.models import User
 
 
 class ModelManager:
@@ -169,6 +170,15 @@ def with_serializer(serializer, backpack, order):
     backpack.number -= number
 
 
+def create_default_order(buyer):
+    OrderManager(buyer, 0)
+
+
+def create_user(username, password, email=''):
+    user = User.objects.create_user(username, email, password)
+    create_default_order(user)
+
+
 def delete_order(request, pk):
     order = OrderManager(id=pk)
     if order:
@@ -179,7 +189,19 @@ def delete_order(request, pk):
             OrderDetailManager(object=item).delete_object()
         order.delete_object()
     if len(Order.objects.filter(buyer=buyer)) == 0:
-        OrderManager(buyer, 0)
+        create_default_order(buyer)
 
+
+def order(buyer):
+    """
+    Говнокод. Из спика всех order_details собирается корзина данного покупателя и создается заказ.
+    """
+    order_details = OrderDetail.objects.filter(order__buyer=buyer).filter(ordered=False)
+    if order_details:
+        this_order = OrderManager(object=order_details[0].order)
+        this_order.status = 'o'
+        create_default_order(buyer)
+        for item in order_details:
+            OrderDetailManager(object=item).ordered = True
 
 

@@ -2,13 +2,20 @@ from rest_framework import serializers
 from .models import Backpack, Type, Manufacturer, Material, OrderDetail, Order
 
 
+# ORDERDETAIL
+class DetailOrdersListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderDetail
+        fields = '__all__'
+
+
 class DetailOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderDetail
-        fields = ('number', )
+        fields = ('number',)
 
 
-#ORDER
+# ORDER
 class OrdersListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
@@ -21,7 +28,7 @@ class OrderDetailSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-#BACKPACK
+# BACKPACK
 class BackpackSerializer(serializers.ModelSerializer):
     class Meta:
         model = Backpack
@@ -48,7 +55,7 @@ class BackpackDetailSerializer(serializers.ModelSerializer):
 #         fields = '__all__'
 
 
-#TYPE
+# TYPE
 class TypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Type
@@ -67,7 +74,7 @@ class TypeDetailSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-#MANUFACTURER
+# MANUFACTURER
 class ManufacturerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Manufacturer
@@ -86,7 +93,7 @@ class ManufacturerDetailSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-#MATERIAL
+# MATERIAL
 class MaterialSerializer(serializers.ModelSerializer):
     class Meta:
         model = Material
