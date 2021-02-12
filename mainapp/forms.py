@@ -2,12 +2,10 @@ from django import forms
 
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
-import datetime #for checking renewal date range.
 
 from django.contrib.auth.models import User
 from .models import Type
 
-from .models import Backpack
 
 class RegistrationForm(forms.Form):
     login = forms.CharField()
@@ -26,12 +24,14 @@ class RegistrationForm(forms.Form):
             raise ValidationError(_('This username already exists')) 
         return login_data
 
+
 class CartAddBackpackForm(forms.Form):
     number = forms.TypedChoiceField(coerce=int)
 
     def __init__(self, number_choices, *args, **kwargs):
-        super(CartAddBackpackForm,self).__init__(*args,**kwargs)
+        super(CartAddBackpackForm,self).__init__(*args, **kwargs)
         self.fields['number'].choices = number_choices
+
 
 class TypeCreateForm(forms.Form):
     type = forms.CharField(max_length=200, help_text="Enter a type (e.g. Tourism backpack, city backpack etc.)")

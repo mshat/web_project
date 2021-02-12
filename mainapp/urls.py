@@ -1,13 +1,14 @@
 from django.urls import path
 from . import views
-from . import services
 from django.conf.urls import url
 from rest_framework import routers
-from .api import *
-
+from .api import OrderDetailCreateView, BackpackCreateView, BackpacksListView, BackpackEditView, \
+    BackpackDetailView, TypeCreateView, TypesListView, TypeEditView, TypeDetailView, ManufacturerCreateView, \
+    ManufacturersListView, ManufacturerEditView, ManufacturerDetailView, MaterialCreateView, MaterialsListView, \
+    MaterialEditView, MaterialDetailView, OrderDeleteView, OrdersListView, OrderDetailView, MyUserViewSet
 
 router = routers.DefaultRouter()
-router.register('api/backpack', BackpackViewSet, 'backpack')
+router.register('api/v1/users/', MyUserViewSet, 'users')
 
 urlpatterns = [
     url(r'^$', views.Index.as_view, name='index'),
@@ -50,8 +51,29 @@ urlpatterns = [
 
     url(r'^registration/$', views.UserView.register, name='register'),
 
-    path('backpack/create/', BackpackCreateView.as_view()),
-    path('backpack/all/', BackpacksListView.as_view()),
-    path('backpack/detail/<int:pk>', BackpackDetailView.as_view()),
-] #+ router.urls
+    path('api/v1/backpack/', BackpackCreateView.as_view()),
+    path('api/v1/backpack/all/', BackpacksListView.as_view()),
+    path('api/v1/backpack/detail/<int:pk>', BackpackDetailView.as_view()),
+    path('api/v1/backpack/detail/<int:pk>/add/', OrderDetailCreateView.as_view()),
+    path('api/v1/backpack/edit/<int:pk>', BackpackEditView.as_view()),
+
+    path('api/v1/type/', TypeCreateView.as_view()),
+    path('api/v1/type/all/', TypesListView.as_view()),
+    path('api/v1/type/detail/<int:pk>', TypeDetailView.as_view()),
+    path('api/v1/type/edit/<int:pk>', TypeEditView.as_view()),
+
+    path('api/v1/manufacturer/', ManufacturerCreateView.as_view()),
+    path('api/v1/manufacturer/all/', ManufacturersListView.as_view()),
+    path('api/v1/manufacturer/detail/<int:pk>', ManufacturerDetailView.as_view()),
+    path('api/v1/manufacturer/edit/<int:pk>', ManufacturerEditView.as_view()),
+
+    path('api/v1/material/', MaterialCreateView.as_view()),
+    path('api/v1/material/all/', MaterialsListView.as_view()),
+    path('api/v1/material/detail/<int:pk>', MaterialDetailView.as_view()),
+    path('api/v1/material/edit/<int:pk>', MaterialEditView.as_view()),
+
+    path('api/v1/order/all/', OrdersListView.as_view()),
+    path('api/v1/order/detail/<int:pk>', OrderDetailView.as_view()),
+    path('api/v1/order/cancel/<int:pk>', OrderDeleteView.as_view()),
+] + router.urls
 

@@ -1,15 +1,17 @@
 from django.shortcuts import get_object_or_404
 from .models import Type, Backpack, Manufacturer, Material, Order, OrderDetail
 from .const import ORDER_STATUS
+from .forms import CartAddBackpackForm, RegistrationForm, TypeCreateForm
 
-class ModelManager():
-    '''
+
+class ModelManager:
+    """
     Абстрактный класс-обертка для работы с моделью. 
-    '''
+    """
     def __init__(self, model, *args, id=None, object=None):
-        '''
+        """
         Создает объект модели, если id==None. Иначе инициализирует объект модели по id или object
-        '''
+        """
         self._model = model
         if id:
             self._object = get_object_or_404(model, id=id)
@@ -129,4 +131,55 @@ class ManufacturerManager(ModelManager):
 class MaterialManager(ModelManager):
     def __init__(self, *args, id=None, object=None):
         super().__init__(Material, *args, id=id, object=object)
- 
+
+
+#todo переделать в объектный стиль функции ниже
+def add_item(request, pk, func, arg):
+    """
+    Добавляет Item в корзину. func принимает with_form или with_serializer в зависимости от того, откуда пришел
+    запрос на добавление итема. В arg передается, соответственно, request или serializer
+    """
+    buyer = request.user
+    order_objects = Order.objects.filter(buyer=buyer).filter(status='c')
+    if order_objects:
+        order_object = order_objects[0]
+    else:
+        raise Exception('Orders from this user do not exist in the table')
+    order = OrderManager(object=order_object)
+    backpack = BackpackManager(id=pk)
+    func(arg, backpack, order)
+
+
+def with_form(request, backpack, order):
+    form = CartAddBackpackForm([(i, str(i)) for i in range(1, backpack.number + 1)], request.POST)
+    if form.is_valid():
+        cd = form.cleaned_data
+        ordered_products_number = cd['number']
+        total = ordered_products_number * backpack.price
+        OrderDetailManager(order.object, backpack.object, ordered_products_number, total)
+        order.total += total
+        backpack.number -= ordered_products_number
+
+
+def with_serializer(serializer, backpack, order):
+    number = serializer.data.get('number')
+    total = number * backpack.price
+    OrderDetailManager(order.object, backpack.object, number, total)
+    order.total += total
+    backpack.number -= number
+
+
+def delete_order(request, pk):
+    order = OrderManager(id=pk)
+    if order:
+        buyer = order.object.buyer
+        order_details = OrderDetail.objects.filter(order=order.object)
+        for item in order_details:
+            BackpackManager(object=item.backpack).number += item.number
+            OrderDetailManager(object=item).delete_object()
+        order.delete_object()
+    if len(Order.objects.filter(buyer=buyer)) == 0:
+        OrderManager(buyer, 0)
+
+
+
