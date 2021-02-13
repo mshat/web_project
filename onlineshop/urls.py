@@ -6,12 +6,15 @@ from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework import routers
 from mainapp.api import MyUserViewSet
+from rest_framework_swagger.views import get_swagger_view
+from django.conf.urls import url
 
-
+schema_view = get_swagger_view(title='Pastebin API')
 router = routers.DefaultRouter()
 router.register('api/v1/users', MyUserViewSet, 'users')
 
 urlpatterns = [
+    url('api/v1/', schema_view),
     path('admin/', admin.site.urls),
     path('catalog/', include('mainapp.urls')),
     path('', include('mainapp.urls')),
