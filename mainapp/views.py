@@ -12,7 +12,7 @@ from .forms import CartAddBackpackForm, RegistrationForm, TypeCreateForm
 from django.views.decorators.http import require_POST
 from . import services
 from .services import BackpackManager, OrderDetailManager, OrderManager, UserManager, TypeManager
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group
 
 
 class Index:
@@ -78,7 +78,7 @@ class TypeCreateView(CreateView):
         form = TypeCreateForm(request.POST)
         if form.is_valid():
             type_name = form.cleaned_data['type']   
-            type = TypeManager(type_name)
+            TypeManager(type_name)
             return HttpResponseRedirect(reverse_lazy('types'))
         return render(request, 'mainapp/type_form.html', {'form': form})
 

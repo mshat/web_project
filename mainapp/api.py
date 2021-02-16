@@ -1,7 +1,7 @@
 from .models import *
 from rest_framework import viewsets, permissions, generics, status
 from .serializers import *
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from .permissions import IsOwnerReadOnly, IsOwner, IsOwnerOrAdmin
 from .views import CartView
