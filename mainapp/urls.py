@@ -7,6 +7,11 @@ from .api import DetailOrderCreateView, BackpackCreateView, BackpacksListView, B
     ManufacturersListView, ManufacturerEditView, ManufacturerDetailView, MaterialCreateView, MaterialsListView, \
     MaterialEditView, MaterialDetailView, OrdersListView, OrderDetailView, MyUserViewSet, OrderCreateView, \
     DetailOrdersListView
+from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
+from rest_framework_swagger.views import get_swagger_view
+from django.conf.urls import url
+
+schema_view = get_swagger_view(title='Pastebin API')
 
 router = routers.DefaultRouter()
 router.register('api/v1/users/', MyUserViewSet, 'users')
@@ -78,5 +83,10 @@ urlpatterns = [
 
     path('api/v1/cart/', DetailOrdersListView.as_view()),
     path('api/v1/cart/order/', OrderCreateView.as_view()),
+
+    url('api/v1/$', schema_view),
+    url('api/v1/api-token-auth/', obtain_jwt_token),
+    url('api/v1/api-token-refresh/', refresh_jwt_token),
+    url('api/v1/api-token-verify/', verify_jwt_token),
 ] + router.urls
 
