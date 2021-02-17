@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  backpack-s1:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+    - .:/code
+    restart: unless-stopped
+  backpack-s2:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    restart: unless-stopped
+  backpack-s3:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    restart: unless-stopped
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    volumes:
+    - ./deploy/nginx/nginx.conf:/etc/nginx/nginx.conf
+    - ./deploy/nginx/conf.d/:/etc/nginx/conf.d/
+    - ./static/:/var/static/
+    ports:
+    - "80:80"
+    restart: unless-stopped
+    depends_on:
+      - backpack-s1
+      - backpack-s2
+      - backpack-s3
+
+networks:
+  default:
+    driver: bridge
