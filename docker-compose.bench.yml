@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  ab:
+    build:
+      context: .
+      dockerfile: Dockerfile.ab
+    networks:
+      web_project_backpack:
+        ipv4_address: 172.16.2.10
+    extra_hosts:
+      - "backpack.shop: 172.16.0.10"
+
+networks:
+  default:
+    external:
+      name: web_project_backpack
+  web_project_backpack:
+    external: true

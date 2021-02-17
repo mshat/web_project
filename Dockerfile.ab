@@ -1,0 +1,8 @@
+FROM ubuntu:latest
+RUN apt-get update && apt-get install apache2-utils ca-certificates inetutils-ping -y
+COPY ./deploy/ssl/minica.pem /usr/local/share/ca-certificates/minica.crt
+COPY ./deploy/ssl/backpack.shop/cert.pem /usr/local/share/ca-certificates/backpack.shop.crt
+RUN update-ca-certificates
+
+# docker build . -f Dockerfile.bench -t apache/benchmark:latest
+# docker run --rm -it apache/benchmark:latest ab

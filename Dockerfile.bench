@@ -1,5 +1,0 @@
-FROM ubuntu:latest
-RUN apt-get update && apt-get install apache2-utils -y
-
-# docker build . -f Dockerfile.bench -t apache/benchmark:latest
-# docker run --rm -it apache/benchmark:latest ab
