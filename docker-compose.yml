@@ -28,7 +28,7 @@ services:
     - ./deploy/nginx/conf.d/:/etc/nginx/conf.d/
     - ./static/:/var/static/
     ports:
-    - "80:80"
+    - "443:443"
     restart: unless-stopped
     depends_on:
       - backpack-s1
