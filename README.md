@@ -1,14 +1,10 @@
 # web
 BMSTU Web development course (2020)
 
-
 # Цель работы
-
 Разработать клиент-серверное приложение для интернет-магазина рюкзаков
 
-
 # Краткий перечень функциональных требований
-
 1. Регистрация
 2. Вход в систему
 3. Выход из системы
@@ -27,13 +23,25 @@ BMSTU Web development course (2020)
 14. Просомтр списка материалов
 15. Просмотр детальной информации о материале
 
-
-
-
 # Use-case диаграмма системы
-
 ![Usecase](https://github.com/mshat/web_project/blob/master/git_res/use-case.jpg)
 
 # ER-диаграмма сущностей системы
-
 ![ER](https://github.com/mshat/web_project/blob/master/git_res/entity-relationship.png)
+
+# Запуск сервисов
+**Запуск nginx и серверов API**
+```shell
+# docker-compose up
+```
+
+**Генерация сертификатов**
+```shell
+# docker-compose -f docker-compose.ssl.yml run --rm minica
+```
+
+**Бенчмарк**
+```shell
+# docker-compose -f docker-compose.bench.yml run --rm ab -n 1000 -c 2 https://backpack.shop/
+```
+
