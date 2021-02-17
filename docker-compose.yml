@@ -24,9 +24,10 @@ services:
       context: .
       dockerfile: Dockerfile.nginx
     volumes:
-    - ./deploy/nginx/nginx.conf:/etc/nginx/nginx.conf
-    - ./deploy/nginx/conf.d/:/etc/nginx/conf.d/
-    - ./static/:/var/static/
+      - ./deploy/ssl:/etc/ssl
+      - ./deploy/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./deploy/nginx/conf.d/:/etc/nginx/conf.d/
+      - ./static/:/var/static/
     ports:
     - "443:443"
     restart: unless-stopped

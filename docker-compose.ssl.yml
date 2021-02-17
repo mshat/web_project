@@ -1,0 +1,10 @@
+version: "3.9"
+
+services:
+  minica:
+    build:
+      context: .
+      dockerfile: Dockerfile.minica
+    volumes:
+      - ./deploy/ssl:/etc/ssl
+    command: minica --domains backpack.shop

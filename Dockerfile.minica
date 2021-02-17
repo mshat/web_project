@@ -1,0 +1,3 @@
+FROM golang:1.16.0-alpine
+RUN go get github.com/jsha/minica@v1.0.2
+WORKDIR /etc/ssl
