@@ -29,6 +29,9 @@ BMSTU Web development course (2020)
 # ER-диаграмма сущностей системы
 ![ER](https://github.com/mshat/web_project/blob/master/git_res/entity-relationship.png)
 
+# Макет в Figma
+https://www.figma.com/file/tTvgv0WeFZP8bHFiTkxjUk/Untitled?node-id=15%3A388
+
 # Запуск сервисов
 **Запуск nginx и серверов API**
 ```shell
