@@ -33,6 +33,11 @@ BMSTU Web development course (2020)
 https://www.figma.com/file/tTvgv0WeFZP8bHFiTkxjUk/Untitled?node-id=15%3A388
 
 # Запуск сервисов
+```shell
+# pip install -r requirements.txt
+# python manage.py runserver
+```
+
 **Запуск nginx и серверов API**
 ```shell
 # docker-compose up
